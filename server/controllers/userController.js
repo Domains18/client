@@ -3,6 +3,40 @@ const expressAsyncHandler = require("express-async-handler");
 
 const authUser = expressAsyncHandler(async (req, res) => {
     res.status(200).json({ message: "User authenticated" });
+
 })
 
-module.exports ={ authUser }
+
+
+const registerUser = expressAsyncHandler(async (req, res) => {
+    res.status(200).json({ message: "User registered" });
+})
+
+
+
+const logoutUser = expressAsyncHandler(async (req, res) => {
+    res.status(200).json({ message: "User loggedOut" });
+})
+
+
+
+const getUserInfo = expressAsyncHandler(async (req, res) => {
+    res.status(200).json({ message: "User info" });
+})
+
+
+
+
+const updateUserProfile = expressAsyncHandler(async (req, res) => {
+    res.status(200).json({ message: "User info updated" });
+})
+
+
+
+module.exports = {
+    authUser,
+    registerUser,
+    logoutUser,
+    getUserInfo,
+    updateUserProfile
+}
