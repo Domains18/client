@@ -1,5 +1,5 @@
 const expressAsyncHandler = require("express-async-handler");
-
+import User from "../models/userModel";
 
 const authUser = expressAsyncHandler(async (req, res) => {
     res.status(200).json({ message: "User authenticated" });
