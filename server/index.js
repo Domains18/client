@@ -4,6 +4,8 @@ const dotenv = require('dotenv').config();
 
 const userRoutes = require('./routes/userRoutes');
 const { notFound, errorHandler } = require('./middleware/errMiddleware');
+const connectDB = require( './config/db');
+connectDB();
 
 //inbult middleware
 app.use(express.json());
