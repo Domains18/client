@@ -1,7 +1,6 @@
 const expressAsyncHandler = require("express-async-handler");
-// import User from "../models/userModel";
 const User = require("../models/userModel");
-
+const { generateToken } = require('../utils/generateToken');
 
 const authUser = expressAsyncHandler(async (req, res) => {
     const { email, password } = req.body;
@@ -23,7 +22,7 @@ const authUser = expressAsyncHandler(async (req, res) => {
 
 
 const registerUser = expressAsyncHandler(async (req, res) => {
-   
+
     const { name, email, password } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -52,14 +51,42 @@ const logoutUser = expressAsyncHandler(async (req, res) => {
 
 
 const getUserInfo = expressAsyncHandler(async (req, res) => {
-    res.status(200).json({ message: "User info" });
+    const user = await User.findById(req.user_id);
+    if (user) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email
+        });
+    } else {
+        res.status(404);
+        throw new Error("user not found")
+    }
 })
 
 
 
 
 const updateUserProfile = expressAsyncHandler(async (req, res) => {
-    res.status(200).json({ message: "User info updated" });
+    const user = await User.findById(req.user._id);
+    if (user) {
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email
+
+        if (req.body.password) {
+            user.password = req.body.password;
+        }
+
+        const updatedUser = await user.save();
+        req.json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email
+        });
+    } else {
+        res.status(404);
+        throw new Error('user not found');
+    }
 })
 
 
